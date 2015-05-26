@@ -107,13 +107,13 @@
         />
 
     <TextView
-        android:layout_width="70dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvStarCount"
         android:layout_below="@+id/tvBody"
         android:text="test"
         android:layout_alignParentRight="true"
-        android:paddingRight="15dp"
+        android:layout_marginRight="30dp"
         android:textSize="13sp"
         android:drawableLeft="@drawable/star"
         android:gravity="center"

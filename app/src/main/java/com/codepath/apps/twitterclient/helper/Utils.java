@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codepath.apps.twitterclient.R;
 import com.codepath.apps.twitterclient.models.Tweet;
 import com.codepath.apps.twitterclient.models.User;
 import com.codepath.apps.twitterclient.service.TwitterApplication;
@@ -38,56 +39,66 @@ public class Utils {
 
     public static void starUnStarTweet(Tweet tweet, boolean flag, Context context1)
     {
-        final boolean finalFlag = flag;
-        final Context context = context1;
-        client = TwitterApplication.getRestClient();
-        client.starTweet(tweet.getUid() + "", flag, new JsonHttpResponseHandler() {
+        if(!isNetworkAvailable(context1))
+        {
+            Toast.makeText(context1, R.string.no_internet_error, Toast.LENGTH_SHORT).show();
+        }
+        else {
+            final boolean finalFlag = flag;
+            final Context context = context1;
+            client = TwitterApplication.getRestClient();
+            client.starTweet(tweet.getUid() + "", flag, new JsonHttpResponseHandler() {
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("DEBUG", response.toString());
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Log.d("DEBUG", response.toString());
 
-                if (finalFlag)
-                    Toast.makeText(context, "Tweet favourited ", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(context, "Tweet unfavourited ", Toast.LENGTH_SHORT).show();
+                    if (finalFlag)
+                        Toast.makeText(context, "Tweet favourited ", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(context, "Tweet unfavourited ", Toast.LENGTH_SHORT).show();
 
-            }
+                }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("DEBUG", errorResponse.toString());
-            }
-        });
-
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.d("DEBUG", errorResponse.toString());
+                }
+            });
+        }
     }
 
     public static void reUnTweet(Tweet tweet, boolean flag, Context context1)
     {
-        final boolean finalFlag = flag;
-        final Context context = context1;
-        client = TwitterApplication.getRestClient();
+        if(!isNetworkAvailable(context1))
+        {
+            Toast.makeText(context1, R.string.no_internet_error, Toast.LENGTH_SHORT).show();
+        }
+        else {
+            final boolean finalFlag = flag;
+            final Context context = context1;
+            client = TwitterApplication.getRestClient();
 
-        client.reTweet(tweet.getUid() + "", flag, new JsonHttpResponseHandler() {
+            client.reTweet(tweet.getUid() + "", flag, new JsonHttpResponseHandler() {
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("DEBUG", response.toString());
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Log.d("DEBUG", response.toString());
 
-                if (finalFlag) {
-                    Toast.makeText(context, "Tweet ReTweet", Toast.LENGTH_SHORT).show();
-                    Tweet tweet = Tweet.fromJson(response);
-                } else
-                    Toast.makeText(context, "Tweet unReTweet ", Toast.LENGTH_SHORT).show();
+                    if (finalFlag) {
+                        Toast.makeText(context, "Tweet ReTweet", Toast.LENGTH_SHORT).show();
+                        Tweet tweet = Tweet.fromJson(response);
+                    } else
+                        Toast.makeText(context, "Tweet unReTweet ", Toast.LENGTH_SHORT).show();
 
-            }
+                }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("DEBUG", errorResponse.toString());
-            }
-        });
-
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.d("DEBUG", errorResponse.toString());
+                }
+            });
+        }
     }
 
     public static String convertToTime(String rawJsonDate) {

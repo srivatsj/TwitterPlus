@@ -123,7 +123,8 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:drawablePadding="2dp"
-        android:layout_marginRight="85dp"/>
+        android:layout_marginRight="85dp"
+        android:text="TEST"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -136,6 +137,7 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:drawablePadding="2dp"
+        android:text="TEST"
          />
 
 </RelativeLayout>
