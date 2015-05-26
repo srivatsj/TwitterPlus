@@ -70,7 +70,7 @@ public class DetailActivity extends ActionBarActivity implements ReplyFragment.O
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        tweet = (Tweet)getIntent().getSerializableExtra("tweet");
+        tweet = (Tweet)getIntent().getParcelableExtra("tweet");
 
         tvReply.setOnClickListener(new View.OnClickListener() {
             @Override

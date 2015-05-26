@@ -66,7 +66,7 @@ public class ReplyFragment extends DialogFragment {
     public static ReplyFragment newInstance(Tweet tweet) {
         ReplyFragment fragment = new ReplyFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM1, tweet);
+        args.putParcelable(ARG_PARAM1, tweet);
         fragment.setArguments(args);
         return fragment;
     }
@@ -86,7 +86,7 @@ public class ReplyFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_reply, container);
-        final Tweet tweet = (Tweet) getArguments().getSerializable(ARG_PARAM1);
+        final Tweet tweet = (Tweet) getArguments().getParcelable(ARG_PARAM1);
         tvReplyTo = (TextView) view.findViewById(R.id.tvReplyTo);
         tvCount = (TextView) view.findViewById(R.id.tweetCount);
         tvReplyTo.setText("In reply to @" + tweet.getUser().getScreenName());

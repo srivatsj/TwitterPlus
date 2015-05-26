@@ -1,6 +1,10 @@
 package com.codepath.apps.twitterclient.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.activeandroid.Model;
+import com.activeandroid.TableInfo;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
@@ -15,7 +19,7 @@ import java.io.Serializable;
  * Created by sjayaram on 5/19/2015.
  */
 @Table(name = "User")
-public class User extends Model implements Serializable {
+public class User extends Model implements Parcelable {
 
     @Column(name = "name")
     private String name;
@@ -78,4 +82,35 @@ public class User extends Model implements Serializable {
     public static void deleteAll(){
         new Delete().from(User.class).execute(); // all records
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeLong(this.uid);
+        dest.writeString(this.screenName);
+        dest.writeString(this.profileImageUrl);
+    }
+
+    private User(Parcel in) {
+        this.name = in.readString();
+        this.uid = in.readLong();
+        this.screenName = in.readString();
+        this.profileImageUrl = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

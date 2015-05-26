@@ -1,6 +1,10 @@
 package com.codepath.apps.twitterclient.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.activeandroid.Model;
+import com.activeandroid.TableInfo;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
@@ -18,7 +22,7 @@ import java.util.List;
  * Created by sjayaram on 5/19/2015.
  */
 @Table(name = "Tweets")
-public class Tweet extends Model implements Serializable{
+public class Tweet extends Model implements Parcelable{
 
     @Column(name = "uId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private long uid;
@@ -248,4 +252,53 @@ public class Tweet extends Model implements Serializable{
     public static void deleteAll(){
         new Delete().from(Tweet.class).execute(); // all records
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.uid);
+        dest.writeString(this.body);
+        dest.writeString(this.createdAt);
+        dest.writeString(this.retweetCount);
+        dest.writeString(this.favouritesCount);
+        dest.writeParcelable(this.user, 0);
+        dest.writeParcelable(this.retweetUser, 0);
+        dest.writeByte(favorited ? (byte) 1 : (byte) 0);
+        dest.writeByte(retweeted ? (byte) 1 : (byte) 0);
+        dest.writeString(this.replied);
+        dest.writeString(this.imageUrl);
+        dest.writeString(this.mediaType);
+        dest.writeString(this.videoUrl);
+    }
+
+    private Tweet(Parcel in) {
+        this.uid = in.readLong();
+        this.body = in.readString();
+        this.createdAt = in.readString();
+        this.retweetCount = in.readString();
+        this.favouritesCount = in.readString();
+        this.user = in.readParcelable(User.class.getClassLoader());
+        this.retweetUser = in.readParcelable(User.class.getClassLoader());
+        this.favorited = in.readByte() != 0;
+        this.retweeted = in.readByte() != 0;
+        this.replied = in.readString();
+        this.imageUrl = in.readString();
+        this.mediaType = in.readString();
+        this.videoUrl = in.readString();
+    }
+
+    public static final Creator<Tweet> CREATOR = new Creator<Tweet>() {
+        public Tweet createFromParcel(Parcel source) {
+            return new Tweet(source);
+        }
+
+        public Tweet[] newArray(int size) {
+            return new Tweet[size];
+        }
+    };
 }

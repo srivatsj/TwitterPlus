@@ -228,19 +228,19 @@ public class TimelineActivity extends ActionBarActivity implements ReplyFragment
         // REQUEST_CODE is defined above
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             // Extract name value from result extras
-            Tweet tweet = (Tweet)data.getExtras().getSerializable("tweet");
+            Tweet tweet = (Tweet)data.getExtras().getParcelable("tweet");
             aTweets.insert(tweet, 0);
             Toast.makeText(this, tweet.toString(), Toast.LENGTH_SHORT).show();
         }
         else if(resultCode == RESULT_OK && requestCode == DETAIL_REQUEST_CODE) {
-            if(data.getExtras().getSerializable("tweet") != null) {
-                Tweet tweet = (Tweet) data.getExtras().getSerializable("tweet");
+            if(data.getExtras().getParcelable("tweet") != null) {
+                Tweet tweet = (Tweet) data.getExtras().getParcelable("tweet");
                 aTweets.insert(tweet, 0);
                 Toast.makeText(this, tweet.toString(), Toast.LENGTH_SHORT).show();
             }
 
-            if(data.getExtras().getSerializable("org") != null) {
-                Tweet tweet2 = (Tweet) data.getExtras().getSerializable("org");
+            if(data.getExtras().getParcelable("org") != null) {
+                Tweet tweet2 = (Tweet) data.getExtras().getParcelable("org");
 
                 for(Tweet tweet : tweets){
                     if(tweet2.getUid() == tweet.getUid())
