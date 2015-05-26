@@ -164,24 +164,28 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         viewHolder.tvRetweetCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(tweet.isRetweeted()){
-                    Utils.reUnTweet(tweet, false, getContext());
-                    Tweet tweet = getItem(position);
-                    tweet.setRetweeted(false);
-                    tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) - 1) + "");
-                    viewHolder.tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_gray, 0, 0, 0);
-                    viewHolder.tvRetweetCount.setTextColor(NO_SELECTION);
-                    viewHolder.tvRetweetCount.setText(tweet.getRetweetCount());
+                if(!Utils.isNetworkAvailable(getContext()))
+                {
+                    Toast.makeText(getContext(), R.string.no_internet_error, Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    Utils.reUnTweet(tweet, true, getContext());
-                    Tweet tweet = getItem(position);
-                    tweet.setRetweeted(true);
-                    tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) + 1) + "");
-                    viewHolder.tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_self, 0, 0, 0);
-                    viewHolder.tvRetweetCount.setTextColor(Color.parseColor("#5C913B"));
-                    viewHolder.tvRetweetCount.setText(tweet.getRetweetCount());
-
+                else {
+                    if (tweet.isRetweeted()) {
+                        Utils.reUnTweet(tweet, false, getContext());
+                        Tweet tweet = getItem(position);
+                        tweet.setRetweeted(false);
+                        tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) - 1) + "");
+                        viewHolder.tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_gray, 0, 0, 0);
+                        viewHolder.tvRetweetCount.setTextColor(NO_SELECTION);
+                        viewHolder.tvRetweetCount.setText(tweet.getRetweetCount());
+                    } else {
+                        Utils.reUnTweet(tweet, true, getContext());
+                        Tweet tweet = getItem(position);
+                        tweet.setRetweeted(true);
+                        tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) + 1) + "");
+                        viewHolder.tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_self, 0, 0, 0);
+                        viewHolder.tvRetweetCount.setTextColor(Color.parseColor("#5C913B"));
+                        viewHolder.tvRetweetCount.setText(tweet.getRetweetCount());
+                    }
                 }
             }
         });
@@ -190,26 +194,28 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         viewHolder.tvStarCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(tweet.isFavorited())
+                if(!Utils.isNetworkAvailable(getContext()))
                 {
-                    Utils.starUnStarTweet(tweet, false, getContext());
-                    Tweet tweet = getItem(position);
-                    tweet.setFavorited(false);
-                    tweet.setFavouritesCount((Integer.parseInt(tweet.getFavouritesCount()) - 1) + "");
-                    viewHolder.tvStarCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.star, 0, 0, 0);
-                    viewHolder.tvStarCount.setTextColor(NO_SELECTION);
-                    viewHolder.tvStarCount.setText(tweet.getFavouritesCount());
+                    Toast.makeText(getContext(), R.string.no_internet_error, Toast.LENGTH_SHORT).show();
                 }
-                else
-                {
-                    Utils.starUnStarTweet(tweet, true, getContext());
-                    Tweet tweet = getItem(position);
-                    tweet.setFavorited(true);
-                    tweet.setFavouritesCount((Integer.parseInt(tweet.getFavouritesCount()) + 1) + "");
-                    viewHolder.tvStarCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.star_self, 0, 0, 0);
-                    viewHolder.tvStarCount.setTextColor(Color.parseColor("#FFAC33"));
-                    viewHolder.tvStarCount.setText(tweet.getFavouritesCount());
+                else {
+                    if (tweet.isFavorited()) {
+                        Utils.starUnStarTweet(tweet, false, getContext());
+                        Tweet tweet = getItem(position);
+                        tweet.setFavorited(false);
+                        tweet.setFavouritesCount((Integer.parseInt(tweet.getFavouritesCount()) - 1) + "");
+                        viewHolder.tvStarCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.star, 0, 0, 0);
+                        viewHolder.tvStarCount.setTextColor(NO_SELECTION);
+                        viewHolder.tvStarCount.setText(tweet.getFavouritesCount());
+                    } else {
+                        Utils.starUnStarTweet(tweet, true, getContext());
+                        Tweet tweet = getItem(position);
+                        tweet.setFavorited(true);
+                        tweet.setFavouritesCount((Integer.parseInt(tweet.getFavouritesCount()) + 1) + "");
+                        viewHolder.tvStarCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.star_self, 0, 0, 0);
+                        viewHolder.tvStarCount.setTextColor(Color.parseColor("#FFAC33"));
+                        viewHolder.tvStarCount.setText(tweet.getFavouritesCount());
+                    }
                 }
             }
         });

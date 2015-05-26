@@ -145,23 +145,26 @@ public class DetailActivity extends ActionBarActivity implements ReplyFragment.O
             @Override
             public void onClick(View v) {
 
-                if(tweet.isFavorited())
+                if(!Utils.isNetworkAvailable(getApplicationContext()))
                 {
-                    Utils.starUnStarTweet(tweet, false, getApplicationContext());
-                    tweet.setFavorited(false);
-                    tweet.setFavouritesCount((Integer.parseInt(tweet.getFavouritesCount()) - 1) + "");
-                    tvStarCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.star, 0, 0, 0);
-                    tvStarCount.setTextColor(tvDate.getTextColors().getDefaultColor());
-                    tvStarCount.setText(tweet.getFavouritesCount());
+                    Toast.makeText(getApplicationContext(), R.string.no_internet_error, Toast.LENGTH_SHORT).show();
                 }
-                else
-                {
-                    Utils.starUnStarTweet(tweet, true, getApplicationContext());
-                    tweet.setFavorited(true);
-                    tweet.setFavouritesCount((Integer.parseInt(tweet.getFavouritesCount()) + 1) + "");
-                    tvStarCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.star_self, 0, 0, 0);
-                    tvStarCount.setTextColor(Color.parseColor("#FFAC33"));
-                    tvStarCount.setText(tweet.getFavouritesCount());
+                else {
+                    if (tweet.isFavorited()) {
+                        Utils.starUnStarTweet(tweet, false, getApplicationContext());
+                        tweet.setFavorited(false);
+                        tweet.setFavouritesCount((Integer.parseInt(tweet.getFavouritesCount()) - 1) + "");
+                        tvStarCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.star, 0, 0, 0);
+                        tvStarCount.setTextColor(tvDate.getTextColors().getDefaultColor());
+                        tvStarCount.setText(tweet.getFavouritesCount());
+                    } else {
+                        Utils.starUnStarTweet(tweet, true, getApplicationContext());
+                        tweet.setFavorited(true);
+                        tweet.setFavouritesCount((Integer.parseInt(tweet.getFavouritesCount()) + 1) + "");
+                        tvStarCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.star_self, 0, 0, 0);
+                        tvStarCount.setTextColor(Color.parseColor("#FFAC33"));
+                        tvStarCount.setText(tweet.getFavouritesCount());
+                    }
                 }
             }
         });
@@ -169,22 +172,26 @@ public class DetailActivity extends ActionBarActivity implements ReplyFragment.O
         tvRetweetCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(tweet.isRetweeted()){
-                    Utils.reUnTweet(tweet, false, getApplicationContext());
-                    tweet.setRetweeted(false);
-                    tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) - 1) + "");
-                    tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_gray, 0, 0, 0);
-                    tvRetweetCount.setTextColor(tvRetweetCount.getTextColors().getDefaultColor());
-                    tvRetweetCount.setText(tweet.getRetweetCount());
+                if(!Utils.isNetworkAvailable(getApplicationContext()))
+                {
+                    Toast.makeText(getApplicationContext(), R.string.no_internet_error, Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    Utils.reUnTweet(tweet, true, getApplicationContext());
-                    tweet.setRetweeted(true);
-                    tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) + 1) + "");
-                    tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_self, 0, 0, 0);
-                    tvRetweetCount.setTextColor(Color.parseColor("#5C913B"));
-                    tvRetweetCount.setText(tweet.getRetweetCount());
-
+                else {
+                    if (tweet.isRetweeted()) {
+                        Utils.reUnTweet(tweet, false, getApplicationContext());
+                        tweet.setRetweeted(false);
+                        tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) - 1) + "");
+                        tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_gray, 0, 0, 0);
+                        tvRetweetCount.setTextColor(tvRetweetCount.getTextColors().getDefaultColor());
+                        tvRetweetCount.setText(tweet.getRetweetCount());
+                    } else {
+                        Utils.reUnTweet(tweet, true, getApplicationContext());
+                        tweet.setRetweeted(true);
+                        tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) + 1) + "");
+                        tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_self, 0, 0, 0);
+                        tvRetweetCount.setTextColor(Color.parseColor("#5C913B"));
+                        tvRetweetCount.setText(tweet.getRetweetCount());
+                    }
                 }
             }
         });
