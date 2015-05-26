@@ -1,8 +1,8 @@
-# Project 3 - *Name of App Here*
+# Project 3 - TwitterClient
 
-**Name of your app** is an android app that allows a user to view his Twitter timeline and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
+TwitterClinet is an android app that allows a user to view his Twitter timeline and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
 
-Time spent: **X** hours spent in total
+Time spent: 40 hours spent in total
 
 ## User Stories
 
@@ -36,18 +36,14 @@ The following **bonus** features are implemented:
 
 The following **additional** features are implemented:
 
-* [x] List anything else that you can get done to improve the app functionality!
-		* [x] Use of ViewHolder pattern and Parcelable to improve app performance
-		* [x] Organizing the code through packages and externalizing all string resources into strings.xml
-		* [x] Robust error handling, check if internet is available, handle error cases, network failures. Show Toast messages in case of mentioned error cases.
-		* [x] User can select "retweet" from detail and Timeline view to retweet a tweet which would result in retweet icon color 
-		      to turn grey to green and retweet count to increment in both details page and timeline page for that tweet.
-		* [x] User can select "favorite" from detail and timeline view to favorite a tweet which would result in favorite icon color to turn grey to yellow 
-		      and favorites count to increment in both details page and timeline page for that tweet.
-		* [x] User can select "unfavorite" from detail and timeline view to unfavorite a tweet which would result in favorite icon color to turn yellow 
-		      to grey and favorites count to decrement in both details page and timeline page for that tweet.
-		* [x] User can see retweet count and favorites count for each tweet on timeline and detail page.
-		* [x] User can see an indicator text to distinguish if the tweet is a retweet or a reply for each tweet on timeline.
+* [x] Use of ViewHolder pattern and Parcelable to improve app performance
+* [x] Organizing the code through packages and externalizing all string resources into strings.xml
+* [x] Robust error handling, check if internet is available, handle error cases, network failures. Show Toast messages in case of mentioned error cases.
+* [x] User can select "retweet" from detail and Timeline view to retweet a tweet which would result in retweet icon color to turn grey to green and retweet count to increment in both details page and timeline page for that tweet.
+* [x] User can select "favorite" from detail and timeline view to favorite a tweet which would result in favorite icon color to turn grey to yellow and favorites count to increment in both details page and timeline page for that tweet.
+* [x] User can select "unfavorite" from detail and timeline view to unfavorite a tweet which would result in favorite icon color to turn yellow to grey and favorites count to decrement in both details page and timeline page for that tweet.
+* [x] User can see retweet count and favorites count for each tweet on timeline and detail page.
+* [x] User can see an indicator text to distinguish if the tweet is a retweet or a reply for each tweet on timeline.
 
 ## Video Walkthrough 
 
