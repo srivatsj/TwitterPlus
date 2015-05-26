@@ -55,7 +55,9 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+* Regarding compose a new tweet: When a tweet is composed, it is shown in timeline immediately but page is not forced to be refreshed. Please note that composed tweet would be shown before page is refreshed.
+* Regarding favorite/unfavorite/retweet: Retweet and favorites counts, green/grey retweet icons, yellow/grey favorite icons are updated for the original tweet once the action is done, but page is not forced to be refreshed.
+* Regarding reply, once replied to a tweet, new tweet(reply tweet) will be added at the top of the timeline page but page is not forced to be refreshed.
 
 ## Open-source libraries used
 
