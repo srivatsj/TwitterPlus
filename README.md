@@ -44,6 +44,7 @@ The following **additional** features are implemented:
 * [x] User can select "unfavorite" from detail and timeline view to unfavorite a tweet which would result in favorite icon color to turn yellow to grey and favorites count to decrement in both details page and timeline page for that tweet.
 * [x] User can see retweet count and favorites count for each tweet on timeline and detail page.
 * [x] User can see an indicator text to distinguish if the tweet is a retweet or a reply for each tweet on timeline.
+* [x] User can reply from timeline page and the new reply is shown immediately without a page refresh.
 
 ## Video Walkthrough 
 
