@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.codepath.apps.twitterclient.home.TimelineActivity">
+
+    <item android:id="@+id/action_settings" android:orderInCategory="10" android:title="Compose"
+        android:icon="@drawable/compose"
+        app:showAsAction="always"/>
+
+</menu>
