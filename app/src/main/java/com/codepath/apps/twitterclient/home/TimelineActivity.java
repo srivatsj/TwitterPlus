@@ -1,26 +1,35 @@
 package com.codepath.apps.twitterclient.home;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.apps.twitterclient.R;
+import com.codepath.apps.twitterclient.common.AlertDialogFragment;
 import com.codepath.apps.twitterclient.common.EndlessScrollListener;
 import com.codepath.apps.twitterclient.compose.ComposeActivity;
+import com.codepath.apps.twitterclient.compose.ComposeFragment;
 import com.codepath.apps.twitterclient.detail.DetailActivity;
 import com.codepath.apps.twitterclient.detail.VideoDialogFragment;
 import com.codepath.apps.twitterclient.helper.Utils;
@@ -267,4 +276,5 @@ public class TimelineActivity extends ActionBarActivity implements ReplyFragment
             Toast.makeText(this, tweet.toString(), Toast.LENGTH_SHORT).show();
         }
     }
+
 }

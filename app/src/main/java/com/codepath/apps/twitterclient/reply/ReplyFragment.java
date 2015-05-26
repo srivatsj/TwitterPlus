@@ -2,6 +2,7 @@ package com.codepath.apps.twitterclient.reply;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.codepath.apps.twitterclient.R;
+import com.codepath.apps.twitterclient.common.AlertDialogFragment;
 import com.codepath.apps.twitterclient.compose.ComposeActivity;
 import com.codepath.apps.twitterclient.helper.Utils;
 import com.codepath.apps.twitterclient.models.Tweet;
@@ -38,7 +40,7 @@ import org.json.JSONObject;
  * Use the {@link ReplyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ReplyFragment extends DialogFragment {
+public class ReplyFragment extends DialogFragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -54,6 +56,8 @@ public class ReplyFragment extends DialogFragment {
     private EditText etReply;
     private Button btReply;
     private TextView tvCount;
+    private TextView tvClose;
+    private final static int TWITTER_COUNT_LIMIT = 140;
 
     /**
      * Use this factory method to create a new instance of
@@ -78,7 +82,7 @@ public class ReplyFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.FULLSCREEN_DIALOG);
+        setStyle(STYLE_NO_FRAME, android.R.style.Theme_Holo_Light);
     }
 
     @Override
@@ -94,7 +98,21 @@ public class ReplyFragment extends DialogFragment {
         etReply.setText("@" + tweet.getUser().getScreenName() + " ");
         etReply.requestFocus();
         btReply = (Button) view.findViewById(R.id.btReply);
+        tvClose = (TextView)view.findViewById(R.id.tvClose);
         client = TwitterApplication.getRestClient();
+
+        tvCount.setText(TWITTER_COUNT_LIMIT - etReply.getText().toString().length() + "");
+
+        tvClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //FragmentManager fm = getFragmentManager();
+                //AlertDialogFragment alertDialog = AlertDialogFragment.newInstance("Confirm", "Do you want close before replying to tweet?");
+                //alertDialog.show(fm, "fragment_alert");
+                dismiss();
+            }
+        });
 
         btReply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +170,9 @@ public class ReplyFragment extends DialogFragment {
                 tvCount.setText(charleft + "");
             }
         });
+
         //getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         return view;
