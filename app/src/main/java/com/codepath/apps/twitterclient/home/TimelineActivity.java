@@ -47,6 +47,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+
 public class TimelineActivity extends ActionBarActivity implements ReplyFragment.OnFragmentInteractionListener {
 
     private TwitterClient client;
@@ -63,6 +65,7 @@ public class TimelineActivity extends ActionBarActivity implements ReplyFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+        EventBus.getDefault().register(this);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
         getSupportActionBar().setCustomView(R.layout.home_actionbar_title);
@@ -266,6 +269,17 @@ public class TimelineActivity extends ActionBarActivity implements ReplyFragment
                 aTweets.notifyDataSetChanged();
             }
         }
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    // This method will be called when a MessageEvent is posted
+    public void onEvent(Tweet event){
+        //Toast.makeText(this, event.getBody() + "", Toast.LENGTH_SHORT).show();
     }
 
     @Override

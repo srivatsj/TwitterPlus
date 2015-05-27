@@ -78,10 +78,10 @@ public class Tweet extends Model implements Parcelable{
                 tweet.replied = jsonObject.getString("in_reply_to_screen_name") ;
             }
 
-            if(jsonObject.optString("current_user_retweet")!=null && jsonObject.optString("current_user_retweet")!="")
+            /*if(jsonObject.optString("current_user_retweet")!=null && jsonObject.optString("current_user_retweet")!="")
             {
                 tweet.current_user_retweet = jsonObject.getJSONObject("current_user_retweet").getString("id_str");
-            }
+            }*/
 
             if(jsonObject.optString("retweeted_status")!=null && jsonObject.optString("retweeted_status")!="")
             {
@@ -250,6 +250,10 @@ public class Tweet extends Model implements Parcelable{
 
     public String getCurrent_user_retweet() {
         return current_user_retweet;
+    }
+
+    public void setCurrent_user_retweet(String current_user_retweet) {
+        this.current_user_retweet = current_user_retweet;
     }
 
     public static List<Tweet> getAll() {

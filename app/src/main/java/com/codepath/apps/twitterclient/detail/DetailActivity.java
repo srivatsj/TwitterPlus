@@ -33,6 +33,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import de.greenrobot.event.EventBus;
+
 public class DetailActivity extends ActionBarActivity implements ReplyFragment.OnFragmentInteractionListener {
 
     private TwitterClient client;
@@ -64,6 +66,8 @@ public class DetailActivity extends ActionBarActivity implements ReplyFragment.O
         ivProfile = (ImageView)findViewById(R.id.ivProfile);
         ivPlay = (ImageView)findViewById(R.id.ivPlay);
         tvReply = (TextView)findViewById(R.id.tvReply);
+        EventBus.getDefault().register(this);
+
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.twitter);
@@ -178,14 +182,14 @@ public class DetailActivity extends ActionBarActivity implements ReplyFragment.O
                 }
                 else {
                     if (tweet.isRetweeted()) {
-                        Utils.reUnTweet(tweet.getCurrent_user_retweet(), false, getApplicationContext());
+                        Utils.reUnTweet(tweet, false, getApplicationContext());
                         tweet.setRetweeted(false);
                         tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) - 1) + "");
                         tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_gray, 0, 0, 0);
                         tvRetweetCount.setTextColor(tvDate.getTextColors().getDefaultColor());
                         tvRetweetCount.setText(tweet.getRetweetCount());
                     } else {
-                        Utils.reUnTweet(tweet.getUid() + "", true, getApplicationContext());
+                        Utils.reUnTweet(tweet, true, getApplicationContext());
                         tweet.setRetweeted(true);
                         tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) + 1) + "");
                         tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_self, 0, 0, 0);
@@ -258,5 +262,16 @@ public class DetailActivity extends ActionBarActivity implements ReplyFragment.O
         data.putExtra("tweet", reply);
         data.putExtra("org", tweet);
         setResult(RESULT_OK, data);
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    // This method will be called when a MessageEvent is posted
+    public void onEvent(Tweet event){
+        Toast.makeText(this, event.isFavorited() + "", Toast.LENGTH_SHORT).show();
     }
 }

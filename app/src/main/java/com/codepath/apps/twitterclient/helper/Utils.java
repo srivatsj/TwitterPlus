@@ -19,6 +19,7 @@ import com.codepath.apps.twitterclient.service.TwitterClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
@@ -27,6 +28,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by sjayaram on 5/20/2015.
@@ -62,23 +65,42 @@ public class Utils {
         });
     }
 
-    public static void reUnTweet(String id, boolean flag, Context context1)
+    public static void reUnTweet(final Tweet tweet, boolean flag, Context context1)
     {
         final boolean finalFlag = flag;
         final Context context = context1;
-        client = TwitterApplication.getRestClient();
 
-        client.reTweet(id + "", flag, new JsonHttpResponseHandler() {
+        client = TwitterApplication.getRestClient();
+        String id  = "";
+        if (!finalFlag) {
+            id = tweet.getCurrent_user_retweet();
+        }
+        else
+        {
+            id = tweet.getUid() + "";
+        }
+
+        client.reTweet(id, flag, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("DEBUG", response.toString());
 
-                if (finalFlag) {
-                    Toast.makeText(context, "Tweet ReTweet", Toast.LENGTH_SHORT).show();
-                    Tweet tweet = Tweet.fromJson(response);
-                } else
-                    Toast.makeText(context, "Tweet unReTweet ", Toast.LENGTH_SHORT).show();
+                try {
+                    if (finalFlag) {
+                        Toast.makeText(context, "Tweet ReTweet", Toast.LENGTH_SHORT).show();
+                        //Tweet tweet = Tweet.fromJson(response);
+
+                            tweet.setCurrent_user_retweet(response.getString("id_str"));
+
+                        EventBus.getDefault().post(tweet);
+                    } else {
+                        Toast.makeText(context, "Tweet unReTweet ", Toast.LENGTH_SHORT).show();
+                        tweet.setCurrent_user_retweet("");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
             }
 
