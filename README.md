@@ -40,7 +40,7 @@ The following **additional** features are implemented:
 * [x] Organizing the code through packages and externalizing all string resources into strings.xml
 * [x] Robust error handling, check if internet is available, handle error cases, network failures. Show Toast messages in case of mentioned error cases.
 * [x] User can select "retweet" from detail and Timeline view to retweet a tweet which would result in retweet icon color to turn grey to green and retweet count to increment in both details page and timeline page for that tweet.
-* [x] User can undo retweet" from detail and Timeline view to unretweet a tweet which would result in retweet icon color to turn green to grey and retweet count to increment in both details page and timeline page for that tweet.
+* [x] User can undo retweet" from detail and Timeline view to unretweet a tweet which would result in retweet icon color to turn green to grey and retweet count to decrement in both details page and timeline page for that tweet.
 * [x] User can select "favorite" from detail and timeline view to favorite a tweet which would result in favorite icon color to turn grey to yellow and favorites count to increment in both details page and timeline page for that tweet.
 * [x] User can select "unfavorite" from detail and timeline view to unfavorite a tweet which would result in favorite icon color to turn yellow to grey and favorites count to decrement in both details page and timeline page for that tweet.
 * [x] User can see retweet count and favorites count for each tweet on timeline and detail page.
