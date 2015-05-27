@@ -170,7 +170,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
                 }
                 else {
                     if (tweet.isRetweeted()) {
-                        Utils.reUnTweet(tweet, false, getContext());
+                        Utils.reUnTweet(tweet.getCurrent_user_retweet(), false, getContext());
                         Tweet tweet = getItem(position);
                         tweet.setRetweeted(false);
                         tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) - 1) + "");
@@ -178,7 +178,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
                         viewHolder.tvRetweetCount.setTextColor(NO_SELECTION);
                         viewHolder.tvRetweetCount.setText(tweet.getRetweetCount());
                     } else {
-                        Utils.reUnTweet(tweet, true, getContext());
+                        Utils.reUnTweet(tweet.getUid() + "", true, getContext());
                         Tweet tweet = getItem(position);
                         tweet.setRetweeted(true);
                         tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) + 1) + "");

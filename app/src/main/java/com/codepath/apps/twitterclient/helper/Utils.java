@@ -62,13 +62,13 @@ public class Utils {
         });
     }
 
-    public static void reUnTweet(Tweet tweet, boolean flag, Context context1)
+    public static void reUnTweet(String id, boolean flag, Context context1)
     {
         final boolean finalFlag = flag;
         final Context context = context1;
         client = TwitterApplication.getRestClient();
 
-        client.reTweet(tweet.getUid() + "", flag, new JsonHttpResponseHandler() {
+        client.reTweet(id + "", flag, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

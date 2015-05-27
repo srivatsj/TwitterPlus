@@ -129,7 +129,7 @@ public class TimelineActivity extends ActionBarActivity implements ReplyFragment
     {
         if(!Utils.isNetworkAvailable(this))
         {
-            Toast.makeText(this, "Getting from sql lite", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Getting from sql lite", Toast.LENGTH_SHORT).show();
 
             if(aTweets.getCount()==0) {
                 List<Tweet> tweetList = Tweet.getAll();
@@ -157,7 +157,7 @@ public class TimelineActivity extends ActionBarActivity implements ReplyFragment
                     if (sinceId == null)
                         sinceId = aTweets.getItem(0).getUid() + "";
 
-                    Toast.makeText(TimelineActivity.this, "new " + tweetList.size() + " tweets, total " + aTweets.getCount() + " ,maxID " + maxId, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(TimelineActivity.this, "new " + tweetList.size() + " tweets, total " + aTweets.getCount() + " ,maxID " + maxId, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -195,7 +195,7 @@ public class TimelineActivity extends ActionBarActivity implements ReplyFragment
                         aTweets.addAll(tweetList);
                     }
 
-                    Toast.makeText(TimelineActivity.this, "sinceId " + sinceId, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(TimelineActivity.this, "sinceId " + sinceId, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -239,13 +239,13 @@ public class TimelineActivity extends ActionBarActivity implements ReplyFragment
             // Extract name value from result extras
             Tweet tweet = (Tweet)data.getExtras().getParcelable("tweet");
             aTweets.insert(tweet, 0);
-            Toast.makeText(this, tweet.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, tweet.toString(), Toast.LENGTH_SHORT).show();
         }
         else if(resultCode == RESULT_OK && requestCode == DETAIL_REQUEST_CODE) {
             if(data.getExtras().getParcelable("tweet") != null) {
                 Tweet tweet = (Tweet) data.getExtras().getParcelable("tweet");
                 aTweets.insert(tweet, 0);
-                Toast.makeText(this, tweet.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, tweet.toString(), Toast.LENGTH_SHORT).show();
             }
 
             if(data.getExtras().getParcelable("org") != null) {
@@ -273,7 +273,7 @@ public class TimelineActivity extends ActionBarActivity implements ReplyFragment
 
         if(tweet != null){
             aTweets.insert(tweet, 0);
-            Toast.makeText(this, tweet.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, tweet.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 

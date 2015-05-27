@@ -53,6 +53,8 @@ public class Tweet extends Model implements Parcelable{
     private String mediaType;
     private String videoUrl;
 
+    private String current_user_retweet;
+
     public Tweet() {
         super();
     }
@@ -74,6 +76,11 @@ public class Tweet extends Model implements Parcelable{
             if(!"null".equals(jsonObject.optString("in_reply_to_screen_name")))
             {
                 tweet.replied = jsonObject.getString("in_reply_to_screen_name") ;
+            }
+
+            if(jsonObject.optString("current_user_retweet")!=null && jsonObject.optString("current_user_retweet")!="")
+            {
+                tweet.current_user_retweet = jsonObject.getJSONObject("current_user_retweet").getString("id_str");
             }
 
             if(jsonObject.optString("retweeted_status")!=null && jsonObject.optString("retweeted_status")!="")
@@ -241,6 +248,10 @@ public class Tweet extends Model implements Parcelable{
         this.videoUrl = videoUrl;
     }
 
+    public String getCurrent_user_retweet() {
+        return current_user_retweet;
+    }
+
     public static List<Tweet> getAll() {
         // This is how you execute a query
         return new Select()
@@ -274,6 +285,7 @@ public class Tweet extends Model implements Parcelable{
         dest.writeString(this.imageUrl);
         dest.writeString(this.mediaType);
         dest.writeString(this.videoUrl);
+        dest.writeString(this.current_user_retweet);
     }
 
     private Tweet(Parcel in) {
@@ -290,6 +302,7 @@ public class Tweet extends Model implements Parcelable{
         this.imageUrl = in.readString();
         this.mediaType = in.readString();
         this.videoUrl = in.readString();
+        this.current_user_retweet = in.readString();
     }
 
     public static final Creator<Tweet> CREATOR = new Creator<Tweet>() {

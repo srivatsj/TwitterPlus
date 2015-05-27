@@ -178,14 +178,14 @@ public class DetailActivity extends ActionBarActivity implements ReplyFragment.O
                 }
                 else {
                     if (tweet.isRetweeted()) {
-                        Utils.reUnTweet(tweet, false, getApplicationContext());
+                        Utils.reUnTweet(tweet.getCurrent_user_retweet(), false, getApplicationContext());
                         tweet.setRetweeted(false);
                         tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) - 1) + "");
                         tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_gray, 0, 0, 0);
-                        tvRetweetCount.setTextColor(tvRetweetCount.getTextColors().getDefaultColor());
+                        tvRetweetCount.setTextColor(tvDate.getTextColors().getDefaultColor());
                         tvRetweetCount.setText(tweet.getRetweetCount());
                     } else {
-                        Utils.reUnTweet(tweet, true, getApplicationContext());
+                        Utils.reUnTweet(tweet.getUid() + "", true, getApplicationContext());
                         tweet.setRetweeted(true);
                         tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) + 1) + "");
                         tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_self, 0, 0, 0);
@@ -208,7 +208,7 @@ public class DetailActivity extends ActionBarActivity implements ReplyFragment.O
                 Log.d("DEBUG", response.toString());
                 Tweet tweet = Tweet.fromJson(response);
 
-                Toast.makeText(DetailActivity.this, "new ", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DetailActivity.this, "new ", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -249,7 +249,7 @@ public class DetailActivity extends ActionBarActivity implements ReplyFragment.O
     public void onFragmentInteraction(Tweet tweet) {
         if(tweet != null){
             reply = tweet;
-            Toast.makeText(this, tweet.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, tweet.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 

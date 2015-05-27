@@ -86,7 +86,7 @@
         android:drawableLeft="@drawable/reply"
         android:layout_centerVertical="true"
         android:gravity="center"
-        android:layout_marginRight="85dp"
+        android:layout_marginRight="65dp"
         android:focusable="true"
         />
 
@@ -101,7 +101,6 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:drawablePadding="2dp"
-        android:layout_marginRight="80dp"
         android:focusable="false"
         android:text="test"
         />
@@ -111,13 +110,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/tvStarCount"
         android:layout_below="@+id/tvBody"
-        android:text="test"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
+        android:layout_toRightOf="@+id/tvRetweetCount"
         android:textSize="13sp"
         android:drawableLeft="@drawable/star"
+        android:layout_marginLeft="70dp"
+        android:layout_centerVertical="true"
         android:gravity="center"
         android:drawablePadding="2dp"
+        android:focusable="false"
+        android:text="test"
         />
 
 

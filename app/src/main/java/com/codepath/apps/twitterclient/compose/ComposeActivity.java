@@ -129,7 +129,7 @@ public class ComposeActivity extends ActionBarActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         Log.d("DEBUG", response.toString());
-                        Toast.makeText(ComposeActivity.this, "tweet posted ", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ComposeActivity.this, "tweet posted ", Toast.LENGTH_SHORT).show();
                         Tweet tweet = Tweet.fromJson(response);
                         Intent data = new Intent();
                         data.putExtra("tweet", tweet);
