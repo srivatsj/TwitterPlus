@@ -55,6 +55,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ## Notes
 
 Please note that this app built on top of my previous [Twitter App](https://github.com/srivats666/TwitterClient)
+Cleaned up the code in TimelineActivity and the Adapter and moved them to the fragment.
 
 ## Open-source libraries used
 
