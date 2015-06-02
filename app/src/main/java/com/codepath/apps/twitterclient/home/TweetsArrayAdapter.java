@@ -3,6 +3,7 @@ package com.codepath.apps.twitterclient.home;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.codepath.apps.twitterclient.Profile.ProfileActivity;
 import com.codepath.apps.twitterclient.R;
 import com.codepath.apps.twitterclient.common.LinkifiedTextView;
+import com.codepath.apps.twitterclient.common.TweetFragmentObj;
 import com.codepath.apps.twitterclient.helper.Utils;
 import com.codepath.apps.twitterclient.models.Tweet;
 import com.codepath.apps.twitterclient.models.User;
@@ -52,7 +55,12 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         TextView tvReply;
     }
 
-    private TwitterClient client;
+    private TweetFragmentObj.TweetFragmentListerner listener;
+
+    // Assign the listener implementing events interface that will receive the events
+    public void setTweetFragmentObjListener(TweetFragmentObj.TweetFragmentListerner listener) {
+        this.listener = listener;
+    }
 
     public TweetsArrayAdapter(Context context, List<Tweet> tweets) {
         super(context, android.R.layout.simple_list_item_1, tweets);
@@ -114,109 +122,40 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
                 .build();
         Picasso.with(getContext()).load(user.getProfileImageUrl()).transform(transformation).into(viewHolder.ivProfile);
 
-
-        if(tweet.isFavorited())
-        {
-            viewHolder.tvStarCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.star_self, 0, 0, 0);
-            viewHolder.tvStarCount.setTextColor(Color.parseColor("#FFAC33"));
-        }
-        else
-        {
-            viewHolder.tvStarCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.star, 0, 0, 0);
-            viewHolder.tvStarCount.setTextColor(NO_SELECTION);
-        }
-
-        if(tweet.isRetweeted())
-        {
-            viewHolder.tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_self, 0, 0, 0);
-            viewHolder.tvRetweetCount.setTextColor(Color.parseColor("#5C913B"));
-        }
-        else
-        {
-            viewHolder.tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_gray, 0, 0, 0);
-            viewHolder.tvRetweetCount.setTextColor(NO_SELECTION);
-        }
-
+        Utils.starTweetView(viewHolder.tvStarCount, tweet);
+        Utils.reUnTweetView(viewHolder.tvRetweetCount, tweet);
 
         viewHolder.tvBody.setText(tweet.getBody());
         viewHolder.tvBody.setAutoLinkMask(0);
         Utils.linkifyText(viewHolder.tvBody);
         viewHolder.tvBody.setAutoLinkMask(1);
-
         viewHolder.tvDate.setText(Utils.convertToTime(tweet.getCreatedAt()));
-        viewHolder.tvRetweetCount.setText(tweet.getRetweetCount());//Long.valueOf(tweet.getUid()).toString()
-        viewHolder.tvStarCount.setText(tweet.getFavouritesCount());
+
+        viewHolder.ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onProfileClick(tweet);
+            }
+        });
 
         viewHolder.tvReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = ((Activity) getContext()).getFragmentManager();
-                ReplyFragment diag = ReplyFragment.newInstance(tweet);
-
-                if (diag.getDialog() != null) {
-                    diag.getDialog().setCanceledOnTouchOutside(true);
-                }
-                diag.show(fm, "");
-
+                listener.onReply(tweet);
             }
         });
 
         viewHolder.tvRetweetCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!Utils.isNetworkAvailable(getContext()))
-                {
-                    Toast.makeText(getContext(), R.string.no_internet_error, Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    if (tweet.isRetweeted()) {
-                        Utils.reUnTweet(tweet, false, getContext());
-                        Tweet tweet = getItem(position);
-                        tweet.setRetweeted(false);
-                        tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) - 1) + "");
-                        viewHolder.tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_gray, 0, 0, 0);
-                        viewHolder.tvRetweetCount.setTextColor(NO_SELECTION);
-                        viewHolder.tvRetweetCount.setText(tweet.getRetweetCount());
-                    } else {
-                        Utils.reUnTweet(tweet, true, getContext());
-                        Tweet tweet = getItem(position);
-                        tweet.setRetweeted(true);
-                        tweet.setRetweetCount((Integer.parseInt(tweet.getRetweetCount()) + 1) + "");
-                        viewHolder.tvRetweetCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_self, 0, 0, 0);
-                        viewHolder.tvRetweetCount.setTextColor(Color.parseColor("#5C913B"));
-                        viewHolder.tvRetweetCount.setText(tweet.getRetweetCount());
-                    }
-                }
+                listener.onRetweet(tweet);
             }
         });
-
 
         viewHolder.tvStarCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!Utils.isNetworkAvailable(getContext()))
-                {
-                    Toast.makeText(getContext(), R.string.no_internet_error, Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    if (tweet.isFavorited()) {
-                        Utils.starUnStarTweet(tweet, false, getContext());
-                        Tweet tweet = getItem(position);
-                        tweet.setFavorited(false);
-                        tweet.setFavouritesCount((Integer.parseInt(tweet.getFavouritesCount()) - 1) + "");
-                        viewHolder.tvStarCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.star, 0, 0, 0);
-                        viewHolder.tvStarCount.setTextColor(NO_SELECTION);
-                        viewHolder.tvStarCount.setText(tweet.getFavouritesCount());
-                    } else {
-                        Utils.starUnStarTweet(tweet, true, getContext());
-                        Tweet tweet = getItem(position);
-                        tweet.setFavorited(true);
-                        tweet.setFavouritesCount((Integer.parseInt(tweet.getFavouritesCount()) + 1) + "");
-                        viewHolder.tvStarCount.setCompoundDrawablesWithIntrinsicBounds(R.drawable.star_self, 0, 0, 0);
-                        viewHolder.tvStarCount.setTextColor(Color.parseColor("#FFAC33"));
-                        viewHolder.tvStarCount.setText(tweet.getFavouritesCount());
-                    }
-                }
+                listener.onFavourite(tweet);
             }
         });
 

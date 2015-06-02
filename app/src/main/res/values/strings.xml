@@ -18,6 +18,12 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_profile">ProfileActivity</string>
 
+    <string name="tweet_favourite">Tweet favourited</string>
+    <string name="tweet_unfavourite">Tweet unfavourited</string>
+
+    <string name="tweet_retweet">Tweet ReTweeted</string>
+    <string name="tweet_untweet">Tweet UnReTweeted</string>
 
 </resources>

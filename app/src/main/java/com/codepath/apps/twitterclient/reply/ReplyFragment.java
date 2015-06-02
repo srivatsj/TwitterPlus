@@ -2,9 +2,6 @@ package com.codepath.apps.twitterclient.reply;
 
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.text.Editable;
@@ -18,11 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.codepath.apps.twitterclient.R;
-import com.codepath.apps.twitterclient.common.AlertDialogFragment;
-import com.codepath.apps.twitterclient.compose.ComposeActivity;
 import com.codepath.apps.twitterclient.helper.Utils;
 import com.codepath.apps.twitterclient.models.Tweet;
 import com.codepath.apps.twitterclient.service.TwitterApplication;

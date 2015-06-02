@@ -10,10 +10,12 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by sjayaram on 5/19/2015.
@@ -29,6 +31,18 @@ public class User extends Model implements Parcelable {
     private String screenName;
     @Column(name = "profileImageUrl")
     private String profileImageUrl;
+
+    @Column(name = "followersCount")
+    private String followersCount;
+    @Column(name = "followingCount")
+    private String followingCount;
+    @Column(name = "tagLine")
+    private String tagLine;
+    @Column(name = "statuses_count")
+    private String statuses_count;
+
+    @Column(name = "profileBackgroundImg")
+    private String profileBackgroundImg;
 
     //@Column(name = "currentUserFlag")
     //private String profileImageUrl;
@@ -46,6 +60,13 @@ public class User extends Model implements Parcelable {
             user.screenName = jsonObject.getString("screen_name");
             user.profileImageUrl = jsonObject.getString("profile_image_url");
 
+            user.tagLine = jsonObject.getString("description");
+            user.followersCount = jsonObject.optString("followers_count")!=null ? jsonObject.getString("followers_count") : "0";
+            user.followingCount = jsonObject.optString("friends_count")!=null ? jsonObject.getString("friends_count") : "0";
+            user.statuses_count = jsonObject.optString("statuses_count")!=null ? jsonObject.getString("statuses_count") : "0";
+
+            user.profileBackgroundImg = jsonObject.getString("profile_background_image_url");
+
             User existingUser =
                     new Select().from(User.class).where("userId = ?", user.uid).executeSingle();
             if (existingUser != null) {
@@ -61,6 +82,45 @@ public class User extends Model implements Parcelable {
         }
 
         return user;
+    }
+
+    public static ArrayList<User> fromJsonArray(JSONArray jsonArray){
+        ArrayList<User> tweets = new ArrayList<>();
+        for(int i = 0; i < jsonArray.length(); i++)
+        {
+            try {
+                JSONObject tweetjson = jsonArray.getJSONObject(i);
+                User tweet = User.fromJson(tweetjson);
+                if(tweet != null) {
+                    tweets.add(tweet);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
+
+        return tweets;
+    }
+
+    public String getProfileBackgroundImg() {
+        return profileBackgroundImg;
+    }
+
+    public String getStatuses_count() {
+        return statuses_count;
+    }
+
+    public String getFollowersCount() {
+        return followersCount;
+    }
+
+    public String getFollowingCount() {
+        return followingCount;
+    }
+
+    public String getTagLine() {
+        return tagLine;
     }
 
     public String getName() {
@@ -95,6 +155,11 @@ public class User extends Model implements Parcelable {
         dest.writeLong(this.uid);
         dest.writeString(this.screenName);
         dest.writeString(this.profileImageUrl);
+        dest.writeString(this.followersCount);
+        dest.writeString(this.followingCount);
+        dest.writeString(this.tagLine);
+        dest.writeString(this.statuses_count);
+        dest.writeString(this.profileBackgroundImg);
     }
 
     private User(Parcel in) {
@@ -102,6 +167,11 @@ public class User extends Model implements Parcelable {
         this.uid = in.readLong();
         this.screenName = in.readString();
         this.profileImageUrl = in.readString();
+        this.followersCount = in.readString();
+        this.followingCount = in.readString();
+        this.tagLine = in.readString();
+        this.statuses_count = in.readString();
+        this.profileBackgroundImg = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.text.format.DateUtils;
 import android.text.util.Linkify;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,10 +41,8 @@ public class Utils {
     private static User loggedInUser;
     private static TwitterClient client;
 
-    public static void starUnStarTweet(Tweet tweet, boolean flag, Context context1)
+    public static void starUnStarTweet(final Tweet tweet, final boolean flag, final Context context)
     {
-        final boolean finalFlag = flag;
-        final Context context = context1;
         client = TwitterApplication.getRestClient();
         client.starTweet(tweet.getUid() + "", flag, new JsonHttpResponseHandler() {
 
@@ -51,11 +50,12 @@ public class Utils {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("DEBUG", response.toString());
 
-                if (finalFlag)
-                    Toast.makeText(context, "Tweet favourited ", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(context, "Tweet unfavourited ", Toast.LENGTH_SHORT).show();
-
+                if (flag) {
+                    Toast.makeText(context, R.string.tweet_favourite, Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(context, R.string.tweet_unfavourite, Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -65,14 +65,54 @@ public class Utils {
         });
     }
 
-    public static void reUnTweet(final Tweet tweet, boolean flag, Context context1)
+    public static void reUnTweetView(TextView view, Tweet tweet)
     {
-        final boolean finalFlag = flag;
-        final Context context = context1;
+        if(tweet.isRetweeted()){
+            view.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_self, 0, 0, 0);
+            view.setTextColor(Color.parseColor("#5C913B"));
+        }
+        else
+        {
+            view.setCompoundDrawablesWithIntrinsicBounds(R.drawable.retweet_gray, 0, 0, 0);
+            view.setTextColor(Integer.MIN_VALUE);
+        }
+        view.setText(countToWords(tweet.getRetweetCount()));
 
+    }
+
+    public static String countToWords(String count){
+        int number = Integer.parseInt(count);
+        String[] suffix = new String[]{"K","M","B","T"};
+        int size = (number != 0) ? (int) Math.log10(number) : 0;
+        if (size >= 3){
+            while (size % 3 != 0) {
+                size = size - 1;
+            }
+        }
+        double notation = Math.pow(10, size);
+        String result = (size >= 3) ? + (Math.round((number / notation) * 100) / 100.0d)+suffix[(size/3) - 1] : + number + "";
+        return result;
+    }
+
+    public static void starTweetView(TextView view, Tweet tweet)
+    {
+        if(tweet.isFavorited()){
+            view.setCompoundDrawablesWithIntrinsicBounds(R.drawable.star_self, 0, 0, 0);
+            view.setTextColor(Color.parseColor("#FFAC33"));
+        }
+        else
+        {
+            view.setCompoundDrawablesWithIntrinsicBounds(R.drawable.star, 0, 0, 0);
+            view.setTextColor(Integer.MIN_VALUE);
+        }
+        view.setText(countToWords(tweet.getFavouritesCount()));
+    }
+
+    public static void reUnTweet(final Tweet tweet, final boolean flag, final Context context)
+    {
         client = TwitterApplication.getRestClient();
-        String id  = "";
-        if (!finalFlag) {
+        String id;
+        if (!flag) {
             id = tweet.getCurrent_user_retweet();
         }
         else
@@ -87,15 +127,11 @@ public class Utils {
                 Log.d("DEBUG", response.toString());
 
                 try {
-                    if (finalFlag) {
-                        Toast.makeText(context, "Tweet ReTweet", Toast.LENGTH_SHORT).show();
-                        //Tweet tweet = Tweet.fromJson(response);
-
-                            tweet.setCurrent_user_retweet(response.getString("id_str"));
-
-                        EventBus.getDefault().post(tweet);
+                    if (flag) {
+                        Toast.makeText(context, R.string.tweet_retweet, Toast.LENGTH_SHORT).show();
+                         tweet.setCurrent_user_retweet(response.getString("id_str"));
                     } else {
-                        Toast.makeText(context, "Tweet unReTweet ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.tweet_untweet, Toast.LENGTH_SHORT).show();
                         tweet.setCurrent_user_retweet("");
                     }
                 } catch (JSONException e) {

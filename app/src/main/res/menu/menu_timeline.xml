@@ -7,4 +7,9 @@
         android:icon="@drawable/compose"
         app:showAsAction="always"/>
 
+    <item android:id="@+id/action_profile" android:orderInCategory="12" android:title="Profile"
+        android:icon="@drawable/profile"
+        app:showAsAction="ifRoom"
+        />
+
 </menu>

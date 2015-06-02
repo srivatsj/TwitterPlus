@@ -43,31 +43,88 @@ public class TwitterClient extends OAuthBaseClient {
 	 */
 
      public void getHomeTimeline(String maxID, String sinceID, AsyncHttpResponseHandler handler){
-         String apiUrl = getApiUrl("statuses/home_timeline.json?count="+RESPONSE_COUNT);
+         String apiUrl = getApiUrl("statuses/home_timeline.json");
+
+         RequestParams params = new RequestParams();
+         params.put("count", 25);
+         params.put("include_my_retweet", "true");
 
          //for endless scroll
          if(!"".equals(maxID) && maxID!=null)
          {
-             apiUrl = apiUrl + "&max_id=" + maxID;
+             params.put("max_id",  maxID);
          }
 
          //for swipe to refresh
          if(!"".equals(sinceID) && sinceID!=null)
          {
-             apiUrl = apiUrl + "&since_id=" + sinceID;
+             params.put("since_id", sinceID);
          }
 
-
-         RequestParams params = new RequestParams();
-         params.put("count", 25);
-         params.put("include_my_retweet", "true");
          getClient().get(apiUrl, params, handler);
+    }
+
+    public void getMentionsline(String maxID, String sinceID, AsyncHttpResponseHandler handler){
+        String apiUrl = getApiUrl("statuses/mentions_timeline.json");
+        RequestParams params = new RequestParams();
+        params.put("count", 25);
+
+        //for endless scroll
+        if(!"".equals(maxID) && maxID!=null)
+        {
+            params.put("max_id",  maxID);
+        }
+
+        //for swipe to refresh
+        if(!"".equals(sinceID) && sinceID!=null)
+        {
+            params.put("since_id", sinceID);
+        }
+
+        getClient().get(apiUrl, params, handler);
+
     }
 
     public void getLoggedInUserProfile(AsyncHttpResponseHandler handler){
         String apiUrl = getApiUrl("account/verify_credentials.json");
 
         RequestParams params = new RequestParams();
+
+        getClient().get(apiUrl, params, handler);
+    }
+
+    public void getUserTimeline(String screenName, AsyncHttpResponseHandler handler){
+        String apiUrl = getApiUrl("statuses/user_timeline.json");
+
+        RequestParams params = new RequestParams();
+        params.put("count", 25);
+        params.put("screen_name", screenName);
+        getClient().get(apiUrl, params, handler);
+    }
+
+    public void getUserObj(String screenName, AsyncHttpResponseHandler handler){
+        String apiUrl = getApiUrl("users/show.json");
+
+        RequestParams params = new RequestParams();
+        params.put("screen_name", screenName);
+        getClient().get(apiUrl, params, handler);
+    }
+
+    public void getFollowingForUsers(String userId, String cursor, AsyncHttpResponseHandler handler){
+        String apiUrl = getApiUrl("friends/list.json");
+
+        RequestParams params = new RequestParams();
+        params.put("user_id", userId);
+        params.put("cursor", cursor);
+        getClient().get(apiUrl, params, handler);
+    }
+
+    public void getFollowersForUser(String userId, String cursor, AsyncHttpResponseHandler handler){
+        String apiUrl = getApiUrl("followers/list.json");
+
+        RequestParams params = new RequestParams();
+        params.put("user_id", userId);
+        params.put("cursor", cursor);
         getClient().get(apiUrl, params, handler);
     }
 
