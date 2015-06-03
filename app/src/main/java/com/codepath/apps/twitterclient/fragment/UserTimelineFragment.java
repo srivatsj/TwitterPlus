@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.codepath.apps.twitterclient.R;
 import com.codepath.apps.twitterclient.detail.DetailActivity;
 import com.codepath.apps.twitterclient.helper.Utils;
 import com.codepath.apps.twitterclient.models.Tweet;
@@ -55,9 +56,10 @@ public class UserTimelineFragment extends TweetsListFragment {
 
         if(!Utils.isNetworkAvailable(getActivity()))
         {
-            Toast.makeText(getActivity(), "Getting from sql lite", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.no_internet_error, Toast.LENGTH_SHORT).show();
         }
         else {
+            Toast.makeText(getActivity(), "maxId is " + maxId, Toast.LENGTH_SHORT).show();
             showProgressBar();
             client.getUserTimeline(screeName, new JsonHttpResponseHandler() {
 
@@ -65,8 +67,10 @@ public class UserTimelineFragment extends TweetsListFragment {
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                     Log.d("DEBUG", response.toString());
                     ArrayList<Tweet> tweetList = Tweet.fromJsonArray(response);
+                    maxId = tweetList.get(tweetList.size() - 1).getUid() - 1 + "";
                     addAll(tweetList);
                     hideProgressBar();
+                    Toast.makeText(getActivity(), "maxId " + maxId + " Count " + tweetList.size(), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override

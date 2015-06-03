@@ -35,6 +35,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sinceId = "1";
         populateTimeline();
     }
 
@@ -58,6 +59,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
         }
         else {
 
+            Toast.makeText(getActivity(), "maxId is " + maxId, Toast.LENGTH_SHORT).show();
             showProgressBar();
             client.getHomeTimeline(maxId, null, new JsonHttpResponseHandler() {
 
@@ -77,6 +79,9 @@ public class HomeTimelineFragment extends TweetsListFragment {
                             if (sinceId == null)
                                 sinceId = aTweets.getItem(0).getUid() + "";
                     }
+
+                    Toast.makeText(getActivity(), "maxId is " + maxId + " Count " + tweetList.size(), Toast.LENGTH_SHORT).show();
+
                     hideProgressBar();
                 }
 

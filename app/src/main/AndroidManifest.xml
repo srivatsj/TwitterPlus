@@ -68,7 +68,12 @@
         <activity
             android:name=".Profile.ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:parentActivityName=".home.TimelineActivity">
+            android:parentActivityName=".home.TimelineActivity" >
+        </activity>
+        <activity
+            android:name=".search.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:parentActivityName=".home.TimelineActivity" >
         </activity>
     </application>
 

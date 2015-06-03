@@ -9,11 +9,13 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -44,6 +46,7 @@ import com.codepath.apps.twitterclient.fragment.TweetsListFragment;
 import com.codepath.apps.twitterclient.helper.Utils;
 import com.codepath.apps.twitterclient.models.User;
 import com.codepath.apps.twitterclient.reply.ReplyFragment;
+import com.codepath.apps.twitterclient.search.SearchActivity;
 import com.codepath.apps.twitterclient.service.TwitterApplication;
 import com.codepath.apps.twitterclient.service.TwitterClient;
 import com.codepath.apps.twitterclient.models.Tweet;
@@ -71,7 +74,7 @@ public class TimelineActivity extends ActionBarActivity implements ReplyFragment
         setContentView(R.layout.activity_timeline);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-        getSupportActionBar().setCustomView(R.layout.home_actionbar_title);
+        //getSupportActionBar().setCustomView(R.layout.home_actionbar_title);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.twitter);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
@@ -87,6 +90,31 @@ public class TimelineActivity extends ActionBarActivity implements ReplyFragment
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_timeline, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        //searchView.setInputType(InputType.TYPE_NULL);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // perform query here
+
+                if(query!=null && !"".equals(query)) {
+                    Intent i = new Intent(TimelineActivity.this, SearchActivity.class);
+                    i.putExtra("query", query);
+                    startActivity(i);
+
+                    searchView.clearFocus();
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
         return true;
     }
 

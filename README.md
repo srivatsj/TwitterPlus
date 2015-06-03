@@ -49,6 +49,7 @@ The following **additional** features are implemented:
 
 ## Video Walkthrough 
 
+<img src='https://github.com/srivats666/TwitterPlus/blob/master/Twitter.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

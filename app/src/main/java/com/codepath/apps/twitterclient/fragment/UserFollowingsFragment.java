@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.codepath.apps.twitterclient.R;
 import com.codepath.apps.twitterclient.helper.Utils;
 import com.codepath.apps.twitterclient.home.UserArrayAdapter;
 import com.codepath.apps.twitterclient.models.User;
@@ -55,7 +56,7 @@ public class UserFollowingsFragment extends UserFragment {
 
         if(!Utils.isNetworkAvailable(getActivity()))
         {
-            Toast.makeText(getActivity(), "No Internet connection!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.no_internet_error, Toast.LENGTH_SHORT).show();
 
         }
         else if(!cursor.equals("0")){

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
-        android:onClick="Connect To Twitter"
+        android:onClick="loginToRest"
         android:textColor="#ffffff"
         android:background="#55acee"
         android:text="@string/login_label"

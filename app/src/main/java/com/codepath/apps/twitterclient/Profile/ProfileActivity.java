@@ -54,8 +54,6 @@ public class ProfileActivity extends ActionBarActivity {
         }
 
         String screenName = user.getScreenName();
-        //getSupportActionBar().setTitle("@" + screenName);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
         getSupportActionBar().setTitle(" Profile");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.twitter);
@@ -64,10 +62,8 @@ public class ProfileActivity extends ActionBarActivity {
 
         populateProfileHeader(user);
 
-
-        userTimelineFragment =  UserTimelineFragment.newInstance(screenName);
-
         if(savedInstanceState == null) {
+            userTimelineFragment =  UserTimelineFragment.newInstance(screenName);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContainer, userTimelineFragment);
             ft.commit();

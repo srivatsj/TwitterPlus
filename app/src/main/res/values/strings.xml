@@ -25,5 +25,6 @@
 
     <string name="tweet_retweet">Tweet ReTweeted</string>
     <string name="tweet_untweet">Tweet UnReTweeted</string>
+    <string name="title_activity_search">SearchActivity</string>
 
 </resources>
